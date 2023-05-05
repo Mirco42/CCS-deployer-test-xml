@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<l7:layer7-config
+      xmlns:l7="http://l7.security.css.ch/config"
+      xmlns:srv="http://l7.security.css.ch/service"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://l7.security.css.ch/config layer7-config.xsd">
+   <srv:restService name="harbor.gradle.com" releaseUnit="gradle-enterprise" version="1.1.0-SNAPSHOT" serviceGroup="API" direction="outbound">
+      <srv:proxy>
+         <srv:publications>
+            <srv:publication>
+               <!-- Internal path -->
+               <srv:publishedPath>/dev13/harbor.gradle.com/*</srv:publishedPath>
+               <!-- External path -->
+               <srv:backendPath>/${REQUEST_URL_SUFFIX}</srv:backendPath>
+            </srv:publication>
+         </srv:publications>
+         <!-- External host and port -->
+         <srv:backendHosts>
+            <srv:backendHost>harbor.gradle.com</srv:backendHost>
+         </srv:backendHosts>
+         <srv:requestRules>
+            <srv:headerRules passThroughAll="false">
+               <srv:httpHeader>
+                  <srv:headerName>Accept</srv:headerName>
+               </srv:httpHeader>
+               <srv:httpHeader>
+                  <srv:headerName>Accept-Encoding</srv:headerName>
+               </srv:httpHeader>
+               <srv:httpHeader>
+                  <srv:headerName>Content-Length</srv:headerName>
+               </srv:httpHeader>
+               <srv:httpHeader>
+                  <srv:headerName>Content-Type</srv:headerName>
+               </srv:httpHeader>
+               <srv:httpHeader>
+                  <srv:headerName>x-rpc-session-token</srv:headerName>
+               </srv:httpHeader>
+            </srv:headerRules>
+         </srv:requestRules>
+         <srv:responseRules>
+            <srv:headerRules passThroughAll="false"/>
+         </srv:responseRules>
+      </srv:proxy>
+      <srv:access>
+         <srv:network>all</srv:network>
+      </srv:access>
+      <srv:protection>
+         <srv:requestSize limit="32"/> <!-- in KB -->
+      </srv:protection>
+      <srv:resources>
+         <srv:resource name="check-in" match="^/dev13/harbor.gradle.com/api/check-in/v1$">
+            <srv:validation>
+            </srv:validation>
+            <srv:http-methods>
+               <srv:http-method>POST</srv:http-method>
+            </srv:http-methods>
+         </srv:resource>
+         <srv:resource name="license-update" match="^/dev13/harbor.gradle.com/api/license-update/v1$">
+            <srv:validation>
+            </srv:validation>
+            <srv:http-methods>
+               <srv:http-method>POST</srv:http-method>
+            </srv:http-methods>
+         </srv:resource>
+      </srv:resources>
+   </srv:restService>
+</l7:layer7-config>
+
