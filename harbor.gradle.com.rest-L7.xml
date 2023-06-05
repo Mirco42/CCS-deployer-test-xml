@@ -41,6 +41,9 @@
             <srv:headerRules passThroughAll="false"/>
          </srv:responseRules>
       </srv:proxy>
+      <srv:access>
+         <srv:network>all</srv:network>
+      </srv:access>
       <srv:protection>
          <srv:requestSize limit="32"/> <!-- in KB -->
       </srv:protection>
